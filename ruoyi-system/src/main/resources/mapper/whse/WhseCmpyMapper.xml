@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.whse.mapper.WhseCmpyMapper">
+
+    <resultMap type="WhseCmpy" id="WhseCmpyResult">
+        <result property="cmpyId"    column="cmpy_id"    />
+        <result property="cmpyName"    column="cmpy_name"    />
+        <result property="cmpyConName"    column="cmpy_con_name"    />
+        <result property="cmpyPhone"    column="cmpy_phone"    />
+        <result property="cmpyEmail"    column="cmpy_email"    />
+        <result property="provinceName"    column="province_name"    />
+        <result property="provinceCode"    column="province_code"    />
+        <result property="cityName"    column="city_name"    />
+        <result property="cityCode"    column="city_code"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="areaCode"    column="area_code"    />
+        <result property="cmpyAddress"    column="cmpy_address"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectWhseCmpyVo">
+        select cmpy_id, cmpy_name, cmpy_con_name, cmpy_phone, cmpy_email, province_name, province_code, city_name, city_code, area_name, area_code, cmpy_address, status, create_by, create_time, update_by, update_time, remark from whse_cmpy
+    </sql>
+
+    <select id="selectWhseCmpyList" parameterType="WhseCmpy" resultMap="WhseCmpyResult">
+        <include refid="selectWhseCmpyVo"/>
+        <where>
+            <if test="cmpyName != null  and cmpyName != ''"> and cmpy_name like concat('%', #{cmpyName}, '%')</if>
+            <if test="cmpyConName != null  and cmpyConName != ''"> and cmpy_con_name like concat('%', #{cmpyConName}, '%')</if>
+            <if test="cmpyPhone != null  and cmpyPhone != ''"> and cmpy_phone = #{cmpyPhone}</if>
+            <if test="cmpyEmail != null  and cmpyEmail != ''"> and cmpy_email = #{cmpyEmail}</if>
+            <if test="cmpyAddress != null  and cmpyAddress != ''"> and cmpy_address = #{cmpyAddress}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectWhseCmpyByCmpyId" parameterType="Long" resultMap="WhseCmpyResult">
+        <include refid="selectWhseCmpyVo"/>
+        where cmpy_id = #{cmpyId}
+    </select>
+
+    <insert id="insertWhseCmpy" parameterType="WhseCmpy" useGeneratedKeys="true" keyProperty="cmpyId">
+        insert into whse_cmpy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cmpyName != null and cmpyName != ''">cmpy_name,</if>
+            <if test="cmpyConName != null">cmpy_con_name,</if>
+            <if test="cmpyPhone != null">cmpy_phone,</if>
+            <if test="cmpyEmail != null">cmpy_email,</if>
+            <if test="provinceName != null">province_name,</if>
+            <if test="cityName != null">city_name,</if>
+            <if test="areaName != null">area_name,</if>
+            <if test="provinceCode != null">province_code,</if>
+            <if test="cityCode != null">city_code,</if>
+            <if test="areaCode != null">area_code,</if>
+            <if test="cmpyAddress != null">cmpy_address,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cmpyName != null and cmpyName != ''">#{cmpyName},</if>
+            <if test="cmpyConName != null">#{cmpyConName},</if>
+            <if test="cmpyPhone != null">#{cmpyPhone},</if>
+            <if test="cmpyEmail != null">#{cmpyEmail},</if>
+            <if test="provinceName != null">#{provinceName},</if>
+            <if test="cityName != null">#{cityName},</if>
+            <if test="areaName != null">#{areaName},</if>
+            <if test="provinceCode != null">#{provinceCode},</if>
+            <if test="cityCode != null">#{cityCode},</if>
+            <if test="areaCode != null">#{areaCode},</if>
+            <if test="cmpyAddress != null">#{cmpyAddress},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWhseCmpy" parameterType="WhseCmpy">
+        update whse_cmpy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cmpyName != null and cmpyName != ''">cmpy_name = #{cmpyName},</if>
+            <if test="cmpyConName != null">cmpy_con_name = #{cmpyConName},</if>
+            <if test="cmpyPhone != null">cmpy_phone = #{cmpyPhone},</if>
+            <if test="cmpyEmail != null">cmpy_email = #{cmpyEmail},</if>
+            <if test="provinceName != null">province_name = #{provinceName},</if>
+            <if test="cityName != null">city_name = #{cityName},</if>
+            <if test="areaName != null">area_name = #{areaName},</if>
+            <if test="provinceCode != null">province_code = #{provinceCode},</if>
+            <if test="cityCode != null">city_code = #{cityCode},</if>
+            <if test="areaCode != null">area_code = #{areaCode},</if>
+            <if test="cmpyAddress != null">cmpy_address = #{cmpyAddress},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where cmpy_id = #{cmpyId}
+    </update>
+
+    <delete id="deleteWhseCmpyByCmpyId" parameterType="Long">
+        delete from whse_cmpy where cmpy_id = #{cmpyId}
+    </delete>
+
+    <delete id="deleteWhseCmpyByCmpyIds" parameterType="String">
+        delete from whse_cmpy where cmpy_id in
+        <foreach item="cmpyId" collection="array" open="(" separator="," close=")">
+            #{cmpyId}
+        </foreach>
+    </delete>
+</mapper>

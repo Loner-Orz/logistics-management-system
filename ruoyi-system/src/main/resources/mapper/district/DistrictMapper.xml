@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.district.mapper.DistrictMapper">
+
+    <resultMap type="District" id="DistrictResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="name"    column="name"    />
+        <result property="pid"    column="pid"    />
+        <result property="level"    column="level"    />
+    </resultMap>
+
+    <select id="getProvince" resultMap="DistrictResult" parameterType="String">
+        SELECT * FROM district WHERE level=1 AND pid = 0 ORDER BY id
+    </select>
+
+    <select id="getCity" resultMap="DistrictResult" parameterType="list">
+        SELECT * FROM district WHERE level=2 AND pid=#{pid} ORDER BY id
+    </select>
+
+    <select id="getArea" resultMap="DistrictResult" parameterType="list">
+        SELECT * FROM district WHERE level=3 AND pid=#{pid} ORDER BY id
+    </select>
+    <select id="getDistrict" resultMap="DistrictResult" resultType="com.ruoyi.district.domain.District">
+        SELECT * FROM district ORDER BY id
+    </select>
+    <select id="getNameByCode" resultType="java.lang.String">
+        SELECT name FROM district WHERE code=#{code}
+    </select>
+    <select id="getCodeByName" resultType="java.lang.String">
+        SELECT code FROM district WHERE name=#{name}
+    </select>
+
+</mapper>

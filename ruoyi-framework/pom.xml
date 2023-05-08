@@ -58,6 +58,12 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-system</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.suyeer</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>3.2.0.6</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

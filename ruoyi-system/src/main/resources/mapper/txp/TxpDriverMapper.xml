@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.txp.mapper.TxpDriverMapper">
+
+    <resultMap type="TxpDriver" id="TxpDriverResult">
+        <result property="driverId"    column="driver_id"    />
+        <result property="driverName"    column="driver_name"    />
+        <result property="driverGender"    column="driver_gender"    />
+        <result property="driverPhone"    column="driver_phone"    />
+        <result property="driverIdc"    column="driver_idc"    />
+        <result property="driverLic"    column="driver_lic"    />
+        <result property="driverFra"    column="driver_fra"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectTxpDriverVo">
+        select driver_id, driver_name, driver_gender, driver_phone, driver_idc, driver_lic, driver_fra, status, create_by, create_time, update_by, update_time, remark from txp_driver
+    </sql>
+
+    <select id="selectTxpDriverList" parameterType="TxpDriver" resultMap="TxpDriverResult">
+        <include refid="selectTxpDriverVo"/>
+        <where>
+            <if test="driverName != null  and driverName != ''"> and driver_name like concat('%', #{driverName}, '%')</if>
+            <if test="driverGender != null  and driverGender != ''"> and driver_gender = #{driverGender}</if>
+            <if test="driverPhone != null  and driverPhone != ''"> and driver_phone = #{driverPhone}</if>
+            <if test="driverIdc != null  and driverIdc != ''"> and driver_idc = #{driverIdc}</if>
+            <if test="driverLic != null  and driverLic != ''"> and driver_lic = #{driverLic}</if>
+            <if test="driverFra != null  and driverFra != ''"> and driver_fra = #{driverFra}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectTxpDriverByDriverId" parameterType="Long" resultMap="TxpDriverResult">
+        <include refid="selectTxpDriverVo"/>
+        where driver_id = #{driverId}
+    </select>
+
+    <insert id="insertTxpDriver" parameterType="TxpDriver" useGeneratedKeys="true" keyProperty="driverId">
+        insert into txp_driver
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="driverName != null and driverName != ''">driver_name,</if>
+            <if test="driverGender != null">driver_gender,</if>
+            <if test="driverPhone != null">driver_phone,</if>
+            <if test="driverIdc != null">driver_idc,</if>
+            <if test="driverLic != null">driver_lic,</if>
+            <if test="driverFra != null">driver_fra,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="driverName != null and driverName != ''">#{driverName},</if>
+            <if test="driverGender != null">#{driverGender},</if>
+            <if test="driverPhone != null">#{driverPhone},</if>
+            <if test="driverIdc != null">#{driverIdc},</if>
+            <if test="driverLic != null">#{driverLic},</if>
+            <if test="driverFra != null">#{driverFra},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTxpDriver" parameterType="TxpDriver">
+        update txp_driver
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="driverName != null and driverName != ''">driver_name = #{driverName},</if>
+            <if test="driverGender != null">driver_gender = #{driverGender},</if>
+            <if test="driverPhone != null">driver_phone = #{driverPhone},</if>
+            <if test="driverIdc != null">driver_idc = #{driverIdc},</if>
+            <if test="driverLic != null">driver_lic = #{driverLic},</if>
+            <if test="driverFra != null">driver_fra = #{driverFra},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where driver_id = #{driverId}
+    </update>
+
+    <delete id="deleteTxpDriverByDriverId" parameterType="Long">
+        delete from txp_driver where driver_id = #{driverId}
+    </delete>
+
+    <delete id="deleteTxpDriverByDriverIds" parameterType="String">
+        delete from txp_driver where driver_id in
+        <foreach item="driverId" collection="array" open="(" separator="," close=")">
+            #{driverId}
+        </foreach>
+    </delete>
+</mapper>

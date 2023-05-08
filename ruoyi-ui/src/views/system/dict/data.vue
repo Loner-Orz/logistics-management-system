@@ -280,6 +280,7 @@ export default {
     /** 查询字典类型详细 */
     getType(dictId) {
       getType(dictId).then(response => {
+        //console.log(response);
         this.queryParams.dictType = response.data.dictType;
         this.defaultDictType = response.data.dictType;
         this.getList();

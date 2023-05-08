@@ -27,7 +27,7 @@ import com.ruoyi.system.service.ISysDictTypeService;
 
 /**
  * 数据字典信息
- * 
+ *
  * @author ruoyi
  */
 @RestController
@@ -55,7 +55,7 @@ public class SysDictDataController extends BaseController
     public void export(HttpServletResponse response, SysDictData dictData)
     {
         List<SysDictData> list = dictDataService.selectDictDataList(dictData);
-        ExcelUtil<SysDictData> util = new ExcelUtil<SysDictData>(SysDictData.class);
+        ExcelUtil<SysDictData> util = new ExcelUtil<>(SysDictData.class);
         util.exportExcel(response, list, "字典数据");
     }
 

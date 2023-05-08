@@ -37,6 +37,12 @@ import DictTag from '@/components/DictTag'
 import VueMeta from 'vue-meta'
 // 字典数据组件
 import DictData from '@/components/DictData'
+//百度地图组件
+import BaiduMap from 'vue-baidu-map'
+Vue.use(BaiduMap, {
+  // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
+  ak: 'lmu1D0xDKtSQoIEQwnLptWxfxkAFQsPF'
+})
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
@@ -83,4 +89,9 @@ new Vue({
   router,
   store,
   render: h => h(App)
+})
+
+Vue.use(BaiduMap, {
+  // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
+  ak: 'lmu1D0xDKtSQoIEQwnLptWxfxkAFQsPF'
 })

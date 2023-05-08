@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.whse.mapper.WhseStoreMapper">
+
+    <resultMap type="WhseStore" id="WhseStoreResult">
+        <result property="storeId"    column="store_id"    />
+        <result property="storeName"    column="store_name"    />
+        <result property="storeConName"    column="store_con_name"    />
+        <result property="storePhone"    column="store_phone"    />
+        <result property="provinceName"    column="province_name"    />
+        <result property="provinceCode"    column="province_code"    />
+        <result property="cityName"    column="city_name"    />
+        <result property="cityCode"    column="city_code"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="areaCode"    column="area_code"    />
+        <result property="storeAddress"    column="store_address"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectWhseStoreVo">
+        select store_id, store_name, store_con_name, store_phone, province_name, province_code, city_name, city_code, area_name, area_code, store_address, status, create_by, create_time, update_by, update_time, remark from whse_store
+    </sql>
+
+    <select id="selectWhseStoreList" parameterType="WhseStore" resultMap="WhseStoreResult">
+        <include refid="selectWhseStoreVo"/>
+        <where>
+            <if test="storeName != null  and storeName != ''"> and store_name like concat('%', #{storeName}, '%')</if>
+            <if test="storeConName != null  and storeConName != ''"> and store_con_name like concat('%', #{storeConName}, '%')</if>
+            <if test="storePhone != null  and storePhone != ''"> and store_phone = #{storePhone}</if>
+            <if test="storeAddress != null  and storeAddress != ''"> and store_address = #{storeAddress}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectWhseStoreByStoreId" parameterType="Long" resultMap="WhseStoreResult">
+        <include refid="selectWhseStoreVo"/>
+        where store_id = #{storeId}
+    </select>
+    <select id="selectNameById" resultType="java.lang.String">
+        SELECT store_name from whse_store where store_id = #{storeId}
+    </select>
+    <select id="selectIdByName" resultType="java.lang.String">
+        SELECT store_id from whse_store where store_name = #{storeName}
+    </select>
+
+    <select id="selectWhseStoreAll" resultMap="WhseStoreResult">
+        <include refid="selectWhseStoreVo"/>
+        where status = '0'
+    </select>
+
+    <insert id="insertWhseStore" parameterType="WhseStore" useGeneratedKeys="true" keyProperty="storeId">
+        insert into whse_store
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="storeName != null and storeName != ''">store_name,</if>
+            <if test="storeConName != null">store_con_name,</if>
+            <if test="storePhone != null">store_phone,</if>
+            <if test="provinceName != null">province_name,</if>
+            <if test="cityName != null">city_name,</if>
+            <if test="areaName != null">area_name,</if>
+            <if test="provinceCode != null">province_code,</if>
+            <if test="cityCode != null">city_code,</if>
+            <if test="areaCode != null">area_code,</if>
+            <if test="storeAddress != null">store_address,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="storeName != null and storeName != ''">#{storeName},</if>
+            <if test="storeConName != null">#{storeConName},</if>
+            <if test="storePhone != null">#{storePhone},</if>
+            <if test="provinceName != null">#{provinceName},</if>
+            <if test="cityName != null">#{cityName},</if>
+            <if test="areaName != null">#{areaName},</if>
+            <if test="provinceCode != null">#{provinceCode},</if>
+            <if test="cityCode != null">#{cityCode},</if>
+            <if test="areaCode != null">#{areaCode},</if>
+            <if test="storeAddress != null">#{storeAddress},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWhseStore" parameterType="WhseStore">
+        update whse_store
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="storeName != null and storeName != ''">store_name = #{storeName},</if>
+            <if test="storeConName != null">store_con_name = #{storeConName},</if>
+            <if test="storePhone != null">store_phone = #{storePhone},</if>
+            <if test="provinceName != null">province_name = #{provinceName},</if>
+            <if test="cityName != null">city_name = #{cityName},</if>
+            <if test="areaName != null">area_name = #{areaName},</if>
+            <if test="provinceCode != null">province_code = #{provinceCode},</if>
+            <if test="cityCode != null">city_code = #{cityCode},</if>
+            <if test="areaCode != null">area_code = #{areaCode},</if>
+            <if test="storeAddress != null">store_address = #{storeAddress},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where store_id = #{storeId}
+    </update>
+
+    <delete id="deleteWhseStoreByStoreId" parameterType="Long">
+        delete from whse_store where store_id = #{storeId}
+    </delete>
+
+    <delete id="deleteWhseStoreByStoreIds" parameterType="String">
+        delete from whse_store where store_id in
+        <foreach item="storeId" collection="array" open="(" separator="," close=")">
+            #{storeId}
+        </foreach>
+    </delete>
+</mapper>

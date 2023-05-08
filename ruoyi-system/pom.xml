@@ -22,6 +22,30 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.suyeer</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>3.2.0.5</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.tlabs-data</groupId>
+            <artifactId>tablesaw_0.41.0-parquet</artifactId>
+            <version>0.9.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.tlabs-data</groupId>
+            <artifactId>tablesaw_0.42.0-parquet</artifactId>
+            <version>0.10.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.tlabs-data</groupId>
+            <artifactId>tablesaw_0.43.1-parquet</artifactId>
+            <version>0.10.1</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

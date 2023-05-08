@@ -272,7 +272,7 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd(row) {
-      this.reset();
+      this.reset();  //重置表单
       if (row != undefined) {
         this.form.parentId = row.deptId;
       }

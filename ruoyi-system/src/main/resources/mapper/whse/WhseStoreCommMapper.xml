@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.whse.mapper.WhseStoreCommMapper">
+
+    <resultMap type="StoreCommDto" id="StoreCommDtoResult">
+        <result property="storeId"    column="store_id"    />
+        <result property="commId"     column="comm_id"    />
+        <result property="commName"   column="comm_name"  />
+        <result property="commPrice"  column="comm_price"  />
+        <result property="commCount"  column="comm_count"  />
+        <result property="commType"   column="comm_type"  />
+    </resultMap>
+
+
+    <insert id="insertComm" parameterType="WhseStoreComm">
+        insert into whse_store_comm (store_id, comm_id, comm_count)
+        values( #{storeId}, #{commId}, #{commCount})
+    </insert>
+
+    <update id="updateComm" parameterType="WhseStoreComm">
+        update whse_store_comm
+        set comm_count = #{CommCount}
+        where store_id = #{storeId}  and  comm_id = #{commId}
+    </update>
+
+    <delete id="deleteCommByCommIds" parameterType="String">
+        delete from whse_store_comm
+        where store_id = #{storeId}
+            and comm_id in
+        <foreach item="commId" collection="commIds" open="(" separator="," close=")">
+            #{commId}
+        </foreach>
+    </delete>
+
+
+    <delete id="deleteCommByCommId" parameterType="Long">
+        delete from whse_store_comm
+        where store_id = #{storeId}  and  comm_id = #{commId}
+    </delete>
+
+    <select id="selectWhseCommListByStoreId" resultMap="StoreCommDtoResult">
+        SELECT c.comm_id, comm_name, comm_price, comm_type,sc.comm_count
+        FROM whse_comm c JOIN whse_store_comm sc
+            ON c.comm_id = sc.comm_id
+        WHERE sc.store_id = #{storeId}
+    </select>
+
+    <select id="selectCommDto" parameterType="StoreCommDto" resultMap="StoreCommDtoResult">
+        SELECT c.comm_id, comm_name, comm_price, comm_type,sc.comm_count
+        FROM whse_comm c JOIN whse_store_comm sc
+             ON c.comm_id = sc.comm_id
+        <where>
+                sc.store_id = #{storeId}
+            <if test="commName != null  and commName != ''"> and c.comm_name like concat('%', #{commName}, '%') </if>
+            <if test="commType != null  and commType != ''"> and c.comm_type = #{commType} </if>
+        </where>
+    </select>
+
+    <select id="getCommCount" resultType="java.lang.Long">
+        SELECT comm_count
+        FROM whse_store_comm
+        WHERE store_id = #{storeId}  and  comm_id = #{commId}
+    </select>
+
+
+</mapper>

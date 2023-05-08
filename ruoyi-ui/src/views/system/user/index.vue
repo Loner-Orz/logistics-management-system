@@ -213,7 +213,11 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="归属部门" prop="deptId">
-              <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="请选择归属部门" />
+              <treeselect
+                v-model="form.deptId"
+                :options="deptOptions"
+                :show-count="true"
+                placeholder="请选择归属部门" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -569,6 +573,7 @@ export default {
         this.form.password = this.initPassword;
       });
     },
+
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
@@ -584,6 +589,7 @@ export default {
         this.form.password = "";
       });
     },
+
     /** 重置密码按钮操作 */
     handleResetPwd(row) {
       this.$prompt('请输入"' + row.userName + '"的新密码', "提示", {

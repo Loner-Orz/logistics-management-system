@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.omd.mapper.OmdOrderMapper">
+
+    <resultMap type="OmdOrder" id="OmdOrderResult">
+        <result property="orderId"    column="order_id"    />
+        <result property="orderBname"    column="order_bname"    />
+        <result property="orderPhone"    column="order_phone"    />
+        <result property="provinceName"    column="province_name"    />
+        <result property="provinceCode"    column="province_code"    />
+        <result property="cityName"    column="city_name"    />
+        <result property="cityCode"    column="city_code"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="areaCode"    column="area_code"    />
+        <result property="drderAddress"    column="drder_address"    />
+        <result property="orderWid"    column="order_wid"    />
+        <result property="orderWcount"    column="order_wcount"    />
+        <result property="orderSid"    column="order_sid"    />
+        <result property="orderPid"    column="order_pid"    />
+        <result property="orderLid"    column="order_lid"    />
+        <result property="orderType"    column="order_type"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectOmdOrderVo">
+        select order_id, order_bname, order_phone, province_name, province_code, city_name, city_code, area_name, area_code, drder_address, order_wid, order_wcount, order_sid, order_pid, order_lid, order_type, status, create_by, create_time, update_by, update_time, remark from omd_order
+    </sql>
+
+    <select id="selectOmdOrderList" parameterType="OmdOrder" resultMap="OmdOrderResult">
+        <include refid="selectOmdOrderVo"/>
+        <where>
+            <if test="orderId != null "> and order_id = #{orderId}</if>
+            <if test="orderBname != null  and orderBname != ''"> and order_bname like concat('%', #{orderBname}, '%')</if>
+            <if test="orderPhone != null  and orderPhone != ''"> and order_phone = #{orderPhone}</if>
+            <if test="provinceName != null  and provinceName != ''"> and province_name = #{provinceName}</if>
+            <if test="provinceCode != null  and provinceCode != ''"> and province_code = #{provinceCode}</if>
+            <if test="cityName != null  and cityName != ''"> and city_name = #{cityName}</if>
+            <if test="cityCode != null  and cityCode != ''"> and city_code = #{cityCode}</if>
+            <if test="areaName != null  and areaName != ''"> and area_name = #{areaName}</if>
+            <if test="areaCode != null  and areaCode != ''"> and area_code = #{areaCode}</if>
+            <if test="drderAddress != null  and drderAddress != ''"> and drder_address like concat('%', #{drderAddress}, '%')</if>
+            <if test="orderWid != null  and orderWid != ''"> and order_wid = #{orderWid}</if>
+            <if test="orderWcount != null "> and order_wcount = #{orderWcount}</if>
+            <if test="orderSid != null  and orderSid != ''"> and order_sid = #{orderSid}</if>
+            <if test="orderPid != null  and orderPid != ''"> and order_pid = #{orderPid}</if>
+            <if test="orderLid != null  and orderLid != ''"> and order_lid = #{orderLid}</if>
+            <if test="orderType != null  and orderType != ''"> and order_type = #{orderType}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectOmdOrderByOrderId" parameterType="Long" resultMap="OmdOrderResult">
+        <include refid="selectOmdOrderVo"/>
+        where order_id = #{orderId}
+    </select>
+
+    <insert id="insertOmdOrder" parameterType="OmdOrder" useGeneratedKeys="true" keyProperty="orderId">
+        insert into omd_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">order_id,</if>
+            <if test="orderBname != null and orderBname != ''">order_bname,</if>
+            <if test="orderPhone != null">order_phone,</if>
+            <if test="provinceName != null">province_name,</if>
+            <if test="provinceCode != null">province_code,</if>
+            <if test="cityName != null">city_name,</if>
+            <if test="cityCode != null">city_code,</if>
+            <if test="areaName != null">area_name,</if>
+            <if test="areaCode != null">area_code,</if>
+            <if test="drderAddress != null and drderAddress != ''">drder_address,</if>
+            <if test="orderWid != null and orderWid != ''">order_wid,</if>
+            <if test="orderWcount != null">order_wcount,</if>
+            <if test="orderSid != null and orderSid != ''">order_sid,</if>
+            <if test="orderPid != null">order_pid,</if>
+            <if test="orderLid != null">order_lid,</if>
+            <if test="orderType != null">order_type,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">#{orderId},</if>
+            <if test="orderBname != null and orderBname != ''">#{orderBname},</if>
+            <if test="orderPhone != null">#{orderPhone},</if>
+            <if test="provinceName != null">#{provinceName},</if>
+            <if test="provinceCode != null">#{provinceCode},</if>
+            <if test="cityName != null">#{cityName},</if>
+            <if test="cityCode != null">#{cityCode},</if>
+            <if test="areaName != null">#{areaName},</if>
+            <if test="areaCode != null">#{areaCode},</if>
+            <if test="drderAddress != null and drderAddress != ''">#{drderAddress},</if>
+            <if test="orderWid != null and orderWid != ''">#{orderWid},</if>
+            <if test="orderWcount != null">#{orderWcount},</if>
+            <if test="orderSid != null and orderSid != ''">#{orderSid},</if>
+            <if test="orderPid != null">#{orderPid},</if>
+            <if test="orderLid != null">#{orderLid},</if>
+            <if test="orderType != null">#{orderType},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOmdOrder" parameterType="OmdOrder">
+        update omd_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderBname != null and orderBname != ''">order_bname = #{orderBname},</if>
+            <if test="orderPhone != null">order_phone = #{orderPhone},</if>
+            <if test="provinceName != null">province_name = #{provinceName},</if>
+            <if test="provinceCode != null">province_code = #{provinceCode},</if>
+            <if test="cityName != null">city_name = #{cityName},</if>
+            <if test="cityCode != null">city_code = #{cityCode},</if>
+            <if test="areaName != null">area_name = #{areaName},</if>
+            <if test="areaCode != null">area_code = #{areaCode},</if>
+            <if test="drderAddress != null and drderAddress != ''">drder_address = #{drderAddress},</if>
+            <if test="orderWid != null and orderWid != ''">order_wid = #{orderWid},</if>
+            <if test="orderWcount != null">order_wcount = #{orderWcount},</if>
+            <if test="orderSid != null and orderSid != ''">order_sid = #{orderSid},</if>
+            <if test="orderPid != null">order_pid = #{orderPid},</if>
+            <if test="orderLid != null">order_lid = #{orderLid},</if>
+            <if test="orderType != null">order_type = #{orderType},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where order_id = #{orderId}
+    </update>
+
+    <delete id="deleteOmdOrderByOrderId" parameterType="Long">
+        delete from omd_order where order_id = #{orderId}
+    </delete>
+
+    <delete id="deleteOmdOrderByOrderIds" parameterType="String">
+        delete from omd_order where order_id in
+        <foreach item="orderId" collection="array" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </delete>
+</mapper>

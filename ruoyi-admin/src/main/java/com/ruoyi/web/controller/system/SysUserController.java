@@ -35,7 +35,7 @@ import com.ruoyi.system.service.ISysUserService;
 
 /**
  * 用户信息
- * 
+ *
  * @author ruoyi
  */
 @RestController
@@ -140,7 +140,7 @@ public class SysUserController extends BaseController
             return error("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
         user.setCreateBy(getUsername());
-        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
+        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));//Security进行密码加密
         return toAjax(userService.insertUser(user));
     }
 

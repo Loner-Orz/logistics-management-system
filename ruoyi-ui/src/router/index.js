@@ -161,6 +161,20 @@ export const dynamicRoutes = [
         meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
       }
     ]
+  },
+  {
+    path: '/whse/store-data',
+    component: Layout,
+    hidden: true,
+    permissions: ['whse:store:list'],
+    children: [
+      {
+        path: 'index/:storeId(\\d+)',
+        component: () => import('@/views/whse/store/data'),
+        name: 'Data',
+        meta: { title: '仓库详细信息', activeMenu: '/whse/store' }
+      }
+    ]
   }
 ]
 

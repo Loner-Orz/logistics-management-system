@@ -1,3 +1,5 @@
+
+<!-- 进行页面重定向 -->
 <script>
 export default {
   created() {

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.txp.mapper.TxpVehicleMapper">
+
+    <resultMap type="TxpVehicle" id="TxpVehicleResult">
+        <result property="vehicleId"    column="vehicle_id"    />
+        <result property="vehicleIpn"    column="vehicle_ipn"    />
+        <result property="vehicleSid"    column="vehicle_sid"    />
+        <result property="vehicleType"    column="vehicle_type"    />
+        <result property="vehicleState"    column="vehicle_state"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectTxpVehicleVo">
+        select vehicle_id, vehicle_ipn, vehicle_sid, vehicle_type, vehicle_state, status, create_by, create_time, update_by, update_time, remark from txp_vehicle
+    </sql>
+
+    <select id="selectTxpVehicleList" parameterType="TxpVehicle" resultMap="TxpVehicleResult">
+        <include refid="selectTxpVehicleVo"/>
+        <where>
+            <if test="vehicleIpn != null  and vehicleIpn != ''"> and vehicle_ipn = #{vehicleIpn}</if>
+            <if test="vehicleSid != null "> and vehicle_sid = #{vehicleSid}</if>
+            <if test="vehicleType != null  and vehicleType != ''"> and vehicle_type = #{vehicleType}</if>
+            <if test="vehicleState != null  and vehicleState != ''"> and vehicle_state = #{vehicleState}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectTxpVehicleByVehicleId" parameterType="Long" resultMap="TxpVehicleResult">
+        <include refid="selectTxpVehicleVo"/>
+        where vehicle_id = #{vehicleId}
+    </select>
+
+    <insert id="insertTxpVehicle" parameterType="TxpVehicle" useGeneratedKeys="true" keyProperty="vehicleId">
+        insert into txp_vehicle
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vehicleIpn != null">vehicle_ipn,</if>
+            <if test="vehicleSid != null">vehicle_sid,</if>
+            <if test="vehicleType != null">vehicle_type,</if>
+            <if test="vehicleState != null">vehicle_state,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vehicleIpn != null">#{vehicleIpn},</if>
+            <if test="vehicleSid != null">#{vehicleSid},</if>
+            <if test="vehicleType != null">#{vehicleType},</if>
+            <if test="vehicleState != null">#{vehicleState},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTxpVehicle" parameterType="TxpVehicle">
+        update txp_vehicle
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vehicleIpn != null">vehicle_ipn = #{vehicleIpn},</if>
+            <if test="vehicleSid != null">vehicle_sid = #{vehicleSid},</if>
+            <if test="vehicleType != null">vehicle_type = #{vehicleType},</if>
+            <if test="vehicleState != null">vehicle_state = #{vehicleState},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where vehicle_id = #{vehicleId}
+    </update>
+
+    <delete id="deleteTxpVehicleByVehicleId" parameterType="Long">
+        delete from txp_vehicle where vehicle_id = #{vehicleId}
+    </delete>
+
+    <delete id="deleteTxpVehicleByVehicleIds" parameterType="String">
+        delete from txp_vehicle where vehicle_id in
+        <foreach item="vehicleId" collection="array" open="(" separator="," close=")">
+            #{vehicleId}
+        </foreach>
+    </delete>
+</mapper>
