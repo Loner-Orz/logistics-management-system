@@ -69,5 +69,6 @@ public interface WhseStoreCommMapper
      * @return 结果
      */
     public int deleteCommByCommId(@Param("storeId") Long storeId, @Param("commId") Long commId);
+
 }
 

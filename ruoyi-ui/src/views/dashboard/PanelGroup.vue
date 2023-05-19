@@ -8,9 +8,9 @@
 
         <div class="card-panel-description">
           <div class="card-panel-text">
-            访客
+            在线人数
           </div>
-          <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="OnlineCount" :duration="2600" class="card-panel-num" />
         </div>
 
       </div>
@@ -23,9 +23,9 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            消息
+            公告数量
           </div>
-          <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="NoticeCount" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -36,9 +36,9 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            金额
+            订单收入
           </div>
-          <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="PayAmount" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -49,9 +49,9 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            订单
+            订单数量
           </div>
-          <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="OrderCount" :duration="3600" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -59,13 +59,84 @@
 </template>
 
 <script>
-import CountTo from 'vue-count-to'
+import CountTo from 'vue-count-to';
+import { list } from "@/api/monitor/online";
+import { listNotice } from "@/api/system/notice";
+import { listOrder } from '@/api/omd/order'
+import { listPay } from '@/api/omd/pay'
 
 export default {
+  data(){
+    return{
+      OnlineCount:0,
+      NoticeCount:0,
+      OrderCount:0,
+      PayAmount:0,
+      onlineQueryParams: {
+        ipaddr: undefined,
+        userName: undefined
+      },
+      noticeQueryParams: {
+        pageNum: 1,
+        pageSize: 10,
+        noticeTitle: undefined,
+        createBy: undefined,
+        status: undefined
+      },
+      orderQueryParams: {
+        pageNum: 1,
+        pageSize: 10,
+        orderId: null,
+        orderBname: null,
+        orderWid: null,
+        orderSid: null,
+        orderPid: null,
+        orderLid: null,
+        orderType: null,
+        status: null,
+      },
+      // 查询参数
+      payQueryParams: {
+        pageNum: 1,
+        pageSize: 10,
+        payMethod: null,
+        paySum: null,
+        status: null,
+      }
+    };
+  },
+  created() {
+    this.getOnlineCount();
+    this.getNoticeCount();
+    this.getOrderCount();
+    this.getPayAmount();
+  },
   components: {
     CountTo
   },
   methods: {
+    getOnlineCount(){
+      list(this.onlineQueryParams).then(response => {
+        this.OnlineCount = response.total;
+      });
+    },
+    getNoticeCount(){
+      listNotice(this.noticeQueryParams).then(response => {
+        this.NoticeCount = response.total;
+      });
+    },
+    getOrderCount(){
+      listOrder(this.orderQueryParams).then(response => {
+        this.OrderCount = response.total;
+      });
+    },
+    getPayAmount(){
+      listPay(this.payQueryParams).then(response => {
+        var Amount = 0;
+        response.rows.forEach(P => Amount += P.paySum);
+        this.PayAmount = Amount;
+      });
+    },
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)
     }

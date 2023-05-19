@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.omd.mapper.OmdPayMapper">
+
+    <resultMap type="OmdPay" id="OmdPayResult">
+        <result property="payId"    column="pay_id"    />
+        <result property="payMethod"    column="pay_method"    />
+        <result property="paySum"    column="pay_sum"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectOmdPayVo">
+        select pay_id, pay_method, pay_sum, status, create_by, create_time, update_by, update_time, remark from omd_pay
+    </sql>
+
+    <select id="selectOmdPayList" parameterType="OmdPay" resultMap="OmdPayResult">
+        <include refid="selectOmdPayVo"/>
+        <where>
+            <if test="payMethod != null  and payMethod != ''"> and pay_method = #{payMethod}</if>
+            <if test="paySum != null "> and pay_sum = #{paySum}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectOmdPayByPayId" parameterType="Long" resultMap="OmdPayResult">
+        <include refid="selectOmdPayVo"/>
+        where pay_id = #{payId}
+    </select>
+
+    <insert id="insertOmdPay" parameterType="OmdPay" useGeneratedKeys="true" keyProperty="payId">
+        insert into omd_pay
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="payId != null">pay_id,</if>
+            <if test="payMethod != null">pay_method,</if>
+            <if test="paySum != null">pay_sum,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="payId != null">#{payId},</if>
+            <if test="payMethod != null">#{payMethod},</if>
+            <if test="paySum != null">#{paySum},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateOmdPay" parameterType="OmdPay">
+        update omd_pay
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="payMethod != null">pay_method = #{payMethod},</if>
+            <if test="paySum != null">pay_sum = #{paySum},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where pay_id = #{payId}
+    </update>
+
+    <delete id="deleteOmdPayByPayId" parameterType="Long">
+        delete from omd_pay where pay_id = #{payId}
+    </delete>
+
+    <delete id="deleteOmdPayByPayIds" parameterType="String">
+        delete from omd_pay where pay_id in
+        <foreach item="payId" collection="array" open="(" separator="," close=")">
+            #{payId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.omd.mapper.OmdRasMapper">
+
+    <resultMap type="OmdRas" id="OmdRasResult">
+        <result property="rasId"    column="ras_id"    />
+        <result property="rasOid"    column="ras_oid"    />
+        <result property="rasStatus"    column="ras_status"    />
+        <result property="rasReason"    column="ras_reason"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectOmdRasVo">
+        select ras_id, ras_oid, ras_status, ras_reason, status, create_by, create_time, update_by, update_time, remark from omd_ras
+    </sql>
+
+    <select id="selectOmdRasList" parameterType="OmdRas" resultMap="OmdRasResult">
+        <include refid="selectOmdRasVo"/>
+        <where>
+            <if test="rasOid != null "> and ras_oid = #{rasOid}</if>
+            <if test="rasStatus != null  and rasStatus != ''"> and ras_status = #{rasStatus}</if>
+            <if test="rasReason != null  and rasReason != ''"> and ras_reason = #{rasReason}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectOmdRasByRasId" parameterType="Long" resultMap="OmdRasResult">
+        <include refid="selectOmdRasVo"/>
+        where ras_id = #{rasId}
+    </select>
+
+    <insert id="insertOmdRas" parameterType="OmdRas" useGeneratedKeys="true" keyProperty="rasId">
+        insert into omd_ras
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rasId != null">ras_id,</if>
+            <if test="rasOid != null">ras_oid,</if>
+            <if test="rasStatus != null">ras_status,</if>
+            <if test="rasReason != null">ras_reason,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rasId != null">#{rasId},</if>
+            <if test="rasOid != null">#{rasOid},</if>
+            <if test="rasStatus != null">#{rasStatus},</if>
+            <if test="rasReason != null">#{rasReason},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateOmdRas" parameterType="OmdRas">
+        update omd_ras
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="rasOid != null">ras_oid = #{rasOid},</if>
+            <if test="rasStatus != null">ras_status = #{rasStatus},</if>
+            <if test="rasReason != null">ras_reason = #{rasReason},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where ras_id = #{rasId}
+    </update>
+
+    <delete id="deleteOmdRasByRasId" parameterType="Long">
+        delete from omd_ras where ras_id = #{rasId}
+    </delete>
+
+    <delete id="deleteOmdRasByRasIds" parameterType="String">
+        delete from omd_ras where ras_id in
+        <foreach item="rasId" collection="array" open="(" separator="," close=")">
+            #{rasId}
+        </foreach>
+    </delete>
+</mapper>

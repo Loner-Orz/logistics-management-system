@@ -1,15 +1,15 @@
-package com.ruoyi.omd.mapper;
+package com.ruoyi.omd.service;
 
 import java.util.List;
 import com.ruoyi.omd.domain.OmdOrder;
 
 /**
- * 订单信息Mapper接口
+ * 订单信息Service接口
  *
  * @author loner
  * @date 2023-04-30
  */
-public interface OmdOrderMapper
+public interface IOmdOrderService
 {
     /**
      * 查询订单信息
@@ -44,20 +44,20 @@ public interface OmdOrderMapper
     public int updateOmdOrder(OmdOrder omdOrder);
 
     /**
-     * 删除订单信息
+     * 批量删除订单信息
+     *
+     * @param orderIds 需要删除的订单信息主键集合
+     * @return 结果
+     */
+    public int deleteOmdOrderByOrderIds(Long[] orderIds);
+
+    /**
+     * 删除订单信息信息
      *
      * @param orderId 订单信息主键
      * @return 结果
      */
     public int deleteOmdOrderByOrderId(Long orderId);
-
-    /**
-     * 批量删除订单信息
-     *
-     * @param orderIds 需要删除的数据主键集合
-     * @return 结果
-     */
-    public int deleteOmdOrderByOrderIds(Long[] orderIds);
 
     public List<OmdOrder> selectOrderAll();
 }

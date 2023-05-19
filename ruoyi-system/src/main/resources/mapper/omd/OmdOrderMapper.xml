@@ -60,8 +60,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectOmdOrderVo"/>
         where order_id = #{orderId}
     </select>
+    <select id="selectOrderAll" resultMap="OmdOrderResult">
+        <include refid="selectOmdOrderVo"></include>
+    </select>
 
-    <insert id="insertOmdOrder" parameterType="OmdOrder" useGeneratedKeys="true" keyProperty="orderId">
+    <insert id="insertOmdOrder" parameterType="OmdOrder" >
         insert into omd_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="orderId != null">order_id,</if>

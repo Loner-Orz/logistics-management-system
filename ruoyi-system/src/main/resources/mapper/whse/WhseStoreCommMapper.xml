@@ -19,11 +19,12 @@
         values( #{storeId}, #{commId}, #{commCount})
     </insert>
 
-    <update id="updateComm" parameterType="WhseStoreComm">
+    <update id="updateComm" parameterType="com.ruoyi.whse.domain.WhseStoreComm">
         update whse_store_comm
-        set comm_count = #{CommCount}
+        set comm_count = #{commCount}
         where store_id = #{storeId}  and  comm_id = #{commId}
     </update>
+
 
     <delete id="deleteCommByCommIds" parameterType="String">
         delete from whse_store_comm

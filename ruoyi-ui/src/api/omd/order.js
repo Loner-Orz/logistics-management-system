@@ -42,3 +42,11 @@ export function delOrder(orderId) {
     method: 'delete'
   })
 }
+
+// 获取订单编号框列表
+export function optionselect() {
+  return request({
+    url: '/omd/order/optionselect',
+    method: 'get'
+  })
+}

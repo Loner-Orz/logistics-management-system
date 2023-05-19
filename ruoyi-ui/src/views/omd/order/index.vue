@@ -8,6 +8,14 @@
           clearable
           @keyup.enter.native="handleQuery"
         />
+<!--        <el-select v-model="queryParams.orderId" placeholder="请选择订单编号">-->
+<!--          <el-option-->
+<!--            v-for="item in orderOptions"-->
+<!--            :key="item.orderId"-->
+<!--            :label="item.orderId"-->
+<!--            :value="item.orderId"-->
+<!--          />-->
+<!--        </el-select>-->
       </el-form-item>
       <el-form-item label="买家姓名" prop="orderBname">
         <el-input
@@ -18,35 +26,39 @@
         />
       </el-form-item>
 
-      <el-form-item label="商品ID" prop="orderWid">
-        <el-input
-          v-model="queryParams.orderWid"
-          placeholder="请输入商品ID"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="商品" prop="orderWid">
+        <el-select v-model="queryParams.orderWid" placeholder="请选择商品" clearable>
+          <el-option
+            v-for="item in commOptions"
+            :key="item.commId"
+            :label="item.commName"
+            :value="item.commId"
+          />
+        </el-select>
       </el-form-item>
 
-      <el-form-item label="仓库ID" prop="orderSid">
-        <el-input
-          v-model="queryParams.orderSid"
-          placeholder="请输入仓库ID"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="仓库" prop="orderSid">
+        <el-select v-model="queryParams.orderSid" placeholder="请选择仓库">
+          <el-option
+            v-for="item in storeOptions"
+            :key="item.storeId"
+            :label="item.storeName"
+            :value="item.storeId"
+          />
+        </el-select>
       </el-form-item>
-      <el-form-item label="支付ID" prop="orderPid">
+      <el-form-item label="支付单号" prop="orderPid">
         <el-input
           v-model="queryParams.orderPid"
-          placeholder="请输入支付ID"
+          placeholder="请输入支付单号"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="物流ID" prop="orderLid">
+      <el-form-item label="物流单号" prop="orderLid">
         <el-input
           v-model="queryParams.orderLid"
-          placeholder="请输入物流ID"
+          placeholder="请输入物流单号"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -134,11 +146,11 @@
         </template>
       </el-table-column>
       <el-table-column label="买家详细地址" align="center" prop="drderAddress" />
-      <el-table-column label="商品ID" align="center" prop="orderWid" />
+      <el-table-column label="商品" align="center" prop="orderWid" />
       <el-table-column label="商品数量" align="center" prop="orderWcount" />
-      <el-table-column label="仓库ID" align="center" prop="orderSid" />
-      <el-table-column label="支付ID" align="center" prop="orderPid" />
-      <el-table-column label="物流ID" align="center" prop="orderLid" />
+      <el-table-column label="仓库" align="center" prop="orderSid" />
+<!--      <el-table-column label="支付ID" align="center" prop="orderPid" />-->
+<!--      <el-table-column label="物流ID" align="center" prop="orderLid" />-->
       <el-table-column label="订单类型" align="center" prop="orderType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.omd_order_type" :value="scope.row.orderType"/>
@@ -199,15 +211,32 @@
         <el-form-item label="买家详细地址" prop="drderAddress">
           <el-input v-model="form.drderAddress" placeholder="请输入买家详细地址" />
         </el-form-item>
-        <el-form-item label="商品ID" prop="orderWid">
-          <el-input v-model="form.orderWid" placeholder="请输入商品ID" />
+
+        <el-form-item label="仓库" prop="orderSid" >
+          <el-select v-model="form.orderSid" placeholder="请选择仓库" @change="getAddCommList(form.orderSid)">
+            <el-option
+              v-for="item in storeOptions"
+              :key="item.storeId"
+              :label="item.storeName"
+              :value="item.storeId"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="商品" prop="orderWid">
+          <el-select v-model="form.orderWid" placeholder="请选择商品">
+            <el-option
+              v-for="item in addCommOptions"
+              :key="item.commId"
+              :label="item.commName"
+              :value="item.commId"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="商品数量" prop="orderWcount">
           <el-input v-model="form.orderWcount" placeholder="请输入商品数量" />
         </el-form-item>
-        <el-form-item label="仓库ID" prop="orderSid">
-          <el-input v-model="form.orderSid" placeholder="请输入仓库ID" />
-        </el-form-item>
+
         <el-form-item label="订单类型" prop="orderType">
           <el-select v-model="form.orderType" placeholder="请选择订单类型">
             <el-option
@@ -231,8 +260,11 @@
 </template>
 
 <script>
-import { listOrder, getOrder, delOrder, addOrder, updateOrder } from "@/api/omd/order";
-import {getListDistrict} from '@/api/district/district'
+import { listOrder, getOrder, delOrder, addOrder, updateOrder, optionselect as getOrderOptionselect } from '@/api/omd/order';
+import {getListDistrict} from '@/api/district/district';
+import {optionselect as getCommOptionselect} from '@/api/whse/comm';
+import { optionselect as getStoreOptionselect } from "@/api/whse/store";
+import { getStore_comm  as getAddCommList } from '@/api/whse/storeData'
 
 export default {
   name: "Order",
@@ -253,6 +285,10 @@ export default {
       total: 0,
       // 订单信息表格数据
       orderList: [],
+      orderOptions:[],
+      commOptions:[],
+      storeOptions:[],
+      addCommOptions:[],
       //初始化省市区
       value:[],
       options:[],
@@ -300,6 +336,9 @@ export default {
   created() {
     this.getData();
     this.getList();
+    this.getOrderList();
+    this.getCommList();
+    this.getStoreList();
   },
   methods: {
     /** 查询订单信息列表 */
@@ -330,16 +369,44 @@ export default {
         //关联三级数据
         a2.forEach(item => {item.children = a3.filter(v => v.pid == item.value)});
         a1.forEach(item => {item.children = a2.filter(v => v.pid == item.value)});
-        console.log(a1);
+        //console.log(a1);
         this.options = a1;
       });
     },
     /** 省市区选中数据 */
     handleChange(val){
-      console.log(val);
+      //console.log(val);
       this.form.areaCode = this.value[2];
       this.form.cityCode = this.value[1];
       this.form.provinceCode = this.value[0];
+    },
+    /** 查询订单编号列表 */
+    getOrderList() {
+      getOrderOptionselect().then(response => {
+        this.orderOptions = response.data;
+      });
+    },
+    /** 查询商品列表 */
+    getCommList() {
+      getCommOptionselect().then(response => {
+        this.commOptions = response.data;
+      });
+    },
+    /** 查询仓库列表 */
+    getStoreList() {
+      getStoreOptionselect().then(response => {
+        this.storeOptions = response.data;
+      });
+    },
+
+    /** 查询新增商品列表 */
+    getAddCommList(storeId) {
+      //console.log(this.queryParams.orderSid);
+      getAddCommList(storeId).then(response => {
+        //console.log(response.data);
+        this.addCommOptions = response.data;
+        //console.log(this.addCommOptions);
+      });
     },
     // 取消按钮
     cancel() {
@@ -370,6 +437,7 @@ export default {
     },
     /** 搜索按钮操作 */
     handleQuery() {
+      //console.log(this.queryParams.orderId);
       this.queryParams.pageNum = 1;
       this.getList();
     },

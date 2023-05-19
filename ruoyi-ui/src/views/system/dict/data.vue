@@ -247,6 +247,7 @@ export default {
       ],
       // 类型数据字典
       typeOptions: [],
+
       // 查询参数
       queryParams: {
         pageNum: 1,
